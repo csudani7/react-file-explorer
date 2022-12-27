@@ -1,0 +1,54 @@
+.tree {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 15%;
+  height: 100vh;
+  background-color: #21252b;
+  padding-top: 15px;
+}
+
+.m-node .inner {
+  color: #d8e0f0;
+  font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.m-node .node {
+  display: inline-block;
+  width: 100%;
+  padding: 4px 5px;
+}
+
+.m-node .node.is-active {
+  background-color: #31363f;
+}
+
+.toolbar {
+  position: relative;
+  display: flex;
+  color: #d8e0f0;
+  z-index: +1;
+  padding-bottom: 4px;
+}
+.toolbar i {
+  margin-right: 5px;
+  cursor: pointer;
+}
+.toolbar i :hover {
+  color: #d8e0f0;
+}
+.toolbar-left {
+  padding-left: 4px;
+  width: 100%;
+}
+.toolbar-view {
+  position: absolute;
+  text-align: right;
+  width: 92%;
+  color: transparent;
+}
+.toolbar-view:hover {
+  color: #d8e0f0;
+}
