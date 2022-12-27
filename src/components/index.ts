@@ -1,4 +1,4 @@
 // # Local import
-import FileView from './FileView'
+import FileView from './FileView';
 
-export { FileView }
+export { FileView };

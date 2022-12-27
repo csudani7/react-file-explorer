@@ -1,13 +1,13 @@
 // # assets import
-import { FiFile } from 'react-icons/fi'
-import { SiTypescript, SiJavascript, SiReact, SiHtml5, SiCss3, SiGit, SiSvg } from 'react-icons/si'
-import { FaReadme } from 'react-icons/fa'
-import { VscJson } from 'react-icons/vsc'
-import { AiFillFolder, AiFillFolderOpen } from 'react-icons/ai'
-import { BsFileEarmarkImage, BsFileEarmarkText } from 'react-icons/bs'
+import { FiFile } from 'react-icons/fi';
+import { FaReadme } from 'react-icons/fa';
+import { VscJson } from 'react-icons/vsc';
+import { AiFillFolder, AiFillFolderOpen } from 'react-icons/ai';
+import { BsFileEarmarkImage, BsFileEarmarkText } from 'react-icons/bs';
+import { SiTypescript, SiJavascript, SiReact, SiHtml5, SiCss3, SiGit, SiSvg } from 'react-icons/si';
 
 // # Local import
-import { TreeType } from '../components/FileView/types'
+import { TreeType } from '../components/FileView/types';
 
 export const initialFileStructure: TreeType = {
   id: 'root',
@@ -165,53 +165,54 @@ export const initialFileStructure: TreeType = {
       leaf: true,
     },
   ],
-}
+};
 
 export const getFileIcon = (fileName: string) => {
-  const fileExtenssion = fileName.split('.').pop()
+  const fileExtenssion = fileName.split('.').pop();
 
   switch (fileExtenssion) {
     case 'html':
-      return SiHtml5
+      return SiHtml5;
     case 'css':
     case 'less':
     case 'scss':
-      return SiCss3
+      return SiCss3;
     case 'ts':
     case 'tsx':
-      return SiTypescript
+      return SiTypescript;
     case 'js':
-      return SiJavascript
+      return SiJavascript;
     case 'jsx':
-      return SiReact
+      return SiReact;
     case 'git':
-      return SiGit
+    case 'gitignore':
+      return SiGit;
     case 'json':
-      return VscJson
+      return VscJson;
     case 'md':
-      return FaReadme
+      return FaReadme;
     case 'png':
     case 'jpg':
     case 'jpeg':
-      return BsFileEarmarkImage
+      return BsFileEarmarkImage;
     case 'svg':
-      return SiSvg
+      return SiSvg;
     case 'txt':
-      return BsFileEarmarkText
+      return BsFileEarmarkText;
 
     default:
-      return FiFile
+      return FiFile;
   }
-}
+};
 
 export const getFolderIcon = (value: boolean | undefined) => {
   switch (value) {
     case true:
-      return AiFillFolder
+      return AiFillFolder;
     case false:
-      return AiFillFolderOpen
+      return AiFillFolderOpen;
 
     default:
-      return AiFillFolderOpen
+      return AiFillFolderOpen;
   }
-}
+};

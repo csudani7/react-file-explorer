@@ -1,24 +1,24 @@
 // # Global import
-import React from 'react'
+import React from 'react';
 // @ts-ignore
-import Tree from 'react-ui-tree'
+import Tree from 'react-ui-tree';
 
 // # assets import
-import { VscCollapseAll } from 'react-icons/vsc'
-import { CgFileRemove, CgFolderRemove } from 'react-icons/cg'
-import { FiFolderPlus, FiFilePlus, FiEdit } from 'react-icons/fi'
-import { findDeep, mapDeep } from 'deepdash-es/standalone'
+import { VscCollapseAll } from 'react-icons/vsc';
+import { CgFileRemove, CgFolderRemove } from 'react-icons/cg';
+import { FiFolderPlus, FiFilePlus, FiEdit } from 'react-icons/fi';
+import { findDeep, mapDeep } from 'deepdash-es/standalone';
 
 // # Local import
-import { TreeType } from './types'
-import { getFileIcon, getFolderIcon } from '../../utils'
+import { TreeType } from './types';
+import { getFileIcon, getFolderIcon } from '../../utils';
 
 function FileView({ initialFileTree }: { initialFileTree: TreeType }) {
-  const [fileTree, setFileTree] = React.useState<TreeType>(initialFileTree)
+  const [fileTree, setFileTree] = React.useState<TreeType>(initialFileTree);
 
   const renderToolbar = (isFolder: boolean, node: TreeType) => {
-    const FileIcon = getFileIcon(node.module)
-    const FolderIcon = getFolderIcon(node?.collapsed)
+    const FileIcon = getFileIcon(node.module);
+    const FolderIcon = getFolderIcon(node?.collapsed);
 
     return (
       <div className='toolbar'>
@@ -53,15 +53,14 @@ function FileView({ initialFileTree }: { initialFileTree: TreeType }) {
           {node.id === 'root' && <VscCollapseAll onClick={handleCollaspseAll} />}
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   const renderTreeNode = (node: TreeType) => {
-    // eslint-disable-next-line no-prototype-builtins
-    const isFolder = node.hasOwnProperty('children')
+    const isFolder = node.hasOwnProperty('children');
 
-    return <>{renderToolbar(isFolder, node)}</>
-  }
+    return <>{renderToolbar(isFolder, node)}</>;
+  };
 
   const addItemInTree = (itemType: string, active: TreeType) => {
     const newItem =
@@ -72,40 +71,40 @@ function FileView({ initialFileTree }: { initialFileTree: TreeType }) {
             children: [],
             collapsed: false,
           }
-        : { id: `${Date.now()}`, leaf: true, module: `New ${itemType}` }
+        : { id: `${Date.now()}`, leaf: true, module: `New ${itemType}` };
 
     const newTree = mapDeep(fileTree, (item) => {
-      const cloneItem = Object.assign({}, item)
+      const cloneItem = Object.assign({}, item);
       if (cloneItem) {
         if (cloneItem.id === active.id && cloneItem.children) {
           // folder
-          cloneItem.children.push(newItem)
+          cloneItem.children.push(newItem);
         }
       }
-      return cloneItem
-    })
+      return cloneItem;
+    });
 
-    setFileTree(newTree[0])
-  }
+    setFileTree(newTree[0]);
+  };
 
   const deleteFromTree = (o: TreeType, id: string | undefined) => {
     function getNode(a: { id: string; children: unknown[] }, i: number) {
       if (a.id === id) {
-        index = i
-        return true
+        index = i;
+        return true;
       }
       if (Array.isArray(a.children) && a?.children?.some(getNode)) {
         if (index) {
-          a?.children?.splice(index, 1)
-          index = -1
+          a?.children?.splice(index, 1);
+          index = -1;
         }
-        return true
+        return true;
       }
     }
 
-    let index = -1
-    ;[o].some(getNode)
-  }
+    let index = -1;
+    [o].some(getNode);
+  };
 
   const handleContextClick = (
     _e: React.MouseEvent<SVGElement, MouseEvent>,
@@ -115,60 +114,57 @@ function FileView({ initialFileTree }: { initialFileTree: TreeType }) {
     switch (action) {
       case 'rename':
         // eslint-disable-next-line
-        const renameObj: any = findDeep(fileTree, (item) => item.id === id, {
+        const renameNode: any = findDeep(fileTree, (item) => item.id === id, {
           childrenPath: ['children'],
-        })
-        const response = prompt('Please rename', renameObj?.value.module)
+        });
+        const userInput = prompt('Please rename', renameNode?.value.module);
 
-        if (response === '') {
-          // return if empty string
-          return
-        }
-        renameObj.value.module = response
+        if (userInput === '') return;
+        renameNode.value.module = userInput;
 
-        const temp = mapDeep(
+        const finalTreeData = mapDeep(
           fileTree,
           (item) =>
             item.id === id
               ? {
                   ...item,
-                  ...renameObj.value,
+                  ...renameNode.value,
                 }
               : item,
           { childrenPath: ['children'] },
-        )
+        );
 
-        setFileTree(temp[0])
-        break
+        setFileTree(finalTreeData[0]);
+        break;
       case 'delete':
-        deleteFromTree(fileTree, id)
-        setFileTree(fileTree)
-        break
+        deleteFromTree(fileTree, id);
+        setFileTree(fileTree);
+        break;
       default:
     }
-  }
+  };
 
   const handleChange = (event: TreeType) => {
-    setFileTree({ ...event })
-  }
+    setFileTree({ ...event });
+  };
 
   const handleCollaspseAll = () => {
     if (fileTree) {
       const newArr = fileTree?.children?.map((object) => {
         if (object.collapsed === false) {
-          return { ...object, collapsed: true }
+          return { ...object, collapsed: true };
         }
-        return object
-      })
-      setFileTree({ ...fileTree, children: newArr })
+        return object;
+      });
+      setFileTree({ ...fileTree, children: newArr });
     }
-  }
+  };
 
   return (
     <div className='tree'>
       <Tree paddingLeft={20} tree={fileTree} onChange={handleChange} renderNode={renderTreeNode} />
     </div>
-  )
+  );
 }
 
-export default FileView
+export default FileView;
